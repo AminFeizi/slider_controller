@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import 'slider_decoration.dart';
+import 'dart:ui' as ui;
 
 ///
 /// Class to Render the Slider Widget.
@@ -209,7 +210,7 @@ class RenderSliderController extends RenderBox {
       ..strokeWidth = _strokeWidth;
 
     /// Painter for the slider thumb
-    final thumbPainter = Paint()..color = _sliderDecoration.thumbColor;
+    final thumbPainter = Paint()..color = Color(0xffDDE1E7);
     final thumbPainter2 = Paint()..color = _sliderDecoration.outerColor;
 
     /// Drawing the inactive part of slider
@@ -246,52 +247,81 @@ class RenderSliderController extends RenderBox {
       final thumbCenter = Offset(thumbDesiredDx, thumbDesiredDy);
       final thumbCenter2 = Offset(
           thumbDx - ((thumbDx == 0.0) ? -25 : _thumbLeftPadding * 1.7), 25);
-
       canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          thumbCenter &
-              Size(_sliderDecoration.thumbWidth, _sliderDecoration.thumbHeight),
-          topRight: Radius.circular(_sliderDecoration.borderRadius),
-          topLeft: Radius.circular(_sliderDecoration.borderRadius),
-          bottomRight: Radius.circular(_sliderDecoration.borderRadius),
-          bottomLeft: Radius.circular(_sliderDecoration.borderRadius),
-        ),
-        thumbPainter
-        // ..colorFilter =ColorFilter.mode(Colors.red,BlendMode.color)
-        //   ..filterQuality = FilterQuality.none
-      );
-      // canvas.drawPath(
-      //     Path()
-      //       ..addRRect(
-      //           RRect.fromRectAndCorners(
-      //             thumbCenter &
-      //             Size(_sliderDecoration.thumbWidth, _sliderDecoration.thumbHeight),
-      //             topRight: Radius.circular(_sliderDecoration.borderRadius),
-      //             topLeft: Radius.circular(_sliderDecoration.borderRadius),
-      //             bottomRight: Radius.circular(_sliderDecoration.borderRadius),
-      //             bottomLeft: Radius.circular(_sliderDecoration.borderRadius),
-      //           ))            // ..addOval(
-      //       //     Rect.fromPoints(Offset(15, 15), Offset(size.width, size.height)))
-      //       ..fillType = PathFillType.evenOdd,
-      //     Paint()
-      //       ..color= Colors.red
-      //       ..maskFilter = MaskFilter.blur(BlurStyle.normal, convertRadiusToSigma(3))
-      // );
+          RRect.fromRectAndCorners(
+            thumbCenter &
+                Size(_sliderDecoration.thumbWidth,
+                    _sliderDecoration.thumbHeight),
+            topRight: Radius.circular(_sliderDecoration.borderRadius),
+            topLeft: Radius.circular(_sliderDecoration.borderRadius),
+            bottomRight: Radius.circular(_sliderDecoration.borderRadius),
+            bottomLeft: Radius.circular(_sliderDecoration.borderRadius),
+          ),
+          thumbPainter
+          // ..colorFilter =ColorFilter.mode(Colors.red,BlendMode.color)
+          //   ..filterQuality = FilterQuality.none
+          );
+      Paint paint_0_stroke = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = size.width * 0.005000000;
+      paint_0_stroke.shader = ui.Gradient.linear(
+          thumbCenter2,
+          Offset(size.width * 0.7500000, size.height * 0.9227271),
+          [Colors.white.withOpacity(1), Color(0xffC0C5CD).withOpacity(1)],
+          [0, 1]);
+      canvas.drawCircle(thumbCenter2,
+          19, paint_0_stroke);
 
+      Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
+      paint_0_fill.shader = ui.Gradient.linear(
+          thumbCenter2,
+          Offset(size.width * 0.7272729, size.height * 0.9500000),
+          [Color(0xffF5F5F9).withOpacity(1), Color(0xffE4E8EE).withOpacity(1)],
+          [0, 1]);
+      canvas.drawCircle(thumbCenter2,
+          19, paint_0_fill);
 
-      canvas.drawCircle(thumbCenter2, 19, thumbPainter2
-        ..maskFilter= MaskFilter.blur(BlurStyle.inner,3)
+      Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
+      paint_1_fill.shader = ui.Gradient.linear(
+          thumbCenter2,
+          Offset(size.width * 0.7224937, size.height * 0.8549979),
+          [Color(0xffDDE1E7).withOpacity(1), Color(0xffFAFBFC).withOpacity(1)],
+          [0, 1]);
+      canvas.drawCircle(thumbCenter2,
+         19, paint_1_fill);
 
-      );
+    /*  canvas.drawCircle(
+          thumbCenter2,
+          19,
+          thumbPainter2
+            ..shader =
+            ui.Gradient.linear(
+                Offset(size.width * 0.2272729, size.height * 0.1590908),
+                Offset(size.width * 0.7500000, size.height * 0.9227271),
+                [Colors.white.withOpacity(1), Color(0xffC0C5CD).withOpacity(1)],
+                [0, 1])
+            // ui.Gradient.linear(
+            //     Offset(size.width * 0.2818188, size.height * 0.05000000),
+            //     Offset(size.width * 0.7272729, size.height * 0.9500000),
+            //     [Color(0xffF5F5F9).withOpacity(1), Color(0xffE4E8EE).withOpacity(1)],
+            //     [0, 1])
+            // ui.Gradient.linear(
+            //     Offset(size.width * 0.2899937, size.height * 0.1374981),
+            //     Offset(size.width * 0.7224937, size.height * 0.8549979),
+            //     [Color(0xffDDE1E7).withOpacity(1), Color(0xffFAFBFC).withOpacity(1)],
+            //     [0, 1])
+            ..maskFilter = const MaskFilter.blur(BlurStyle.inner, 3));*/
 
     }
 
     /// Restoring the saved canvas
     canvas.restore();
   }
+
   static double convertRadiusToSigma(double radius) {
     return radius * 0.57735 + 0.5;
   }
+
   /// Helped to Use the horizontal drag gesture for the slider
   HorizontalDragGestureRecognizer _drag = HorizontalDragGestureRecognizer();
 
@@ -352,4 +382,46 @@ enum ChangeValueType {
   changeStart,
   change,
   changeEnd,
+}
+
+//Add this CustomPaint widget to the Widget Tree
+
+//Copy this CustomPainter code to the Bottom of the File
+class RPSCustomPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint_0_stroke = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = size.width * 0.005000000;
+    paint_0_stroke.shader = ui.Gradient.linear(
+        Offset(size.width * 0.2272729, size.height * 0.1590908),
+        Offset(size.width * 0.7500000, size.height * 0.9227271),
+        [Colors.white.withOpacity(1), Color(0xffC0C5CD).withOpacity(1)],
+        [0, 1]);
+    canvas.drawCircle(Offset(size.width * 0.5000000, size.height * 0.5000000),
+        size.width * 0.4975000, paint_0_stroke);
+
+    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
+    paint_0_fill.shader = ui.Gradient.linear(
+        Offset(size.width * 0.2818188, size.height * 0.05000000),
+        Offset(size.width * 0.7272729, size.height * 0.9500000),
+        [Color(0xffF5F5F9).withOpacity(1), Color(0xffE4E8EE).withOpacity(1)],
+        [0, 1]);
+    canvas.drawCircle(Offset(size.width * 0.5000000, size.height * 0.5000000),
+        size.width * 0.4975000, paint_0_fill);
+
+    Paint paint_1_fill = Paint()..style = PaintingStyle.fill;
+    paint_1_fill.shader = ui.Gradient.linear(
+        Offset(size.width * 0.2899937, size.height * 0.1374981),
+        Offset(size.width * 0.7224937, size.height * 0.8549979),
+        [Color(0xffDDE1E7).withOpacity(1), Color(0xffFAFBFC).withOpacity(1)],
+        [0, 1]);
+    canvas.drawCircle(Offset(size.width * 0.4999938, size.height * 0.4999979),
+        size.width * 0.4300000, paint_1_fill);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
 }
