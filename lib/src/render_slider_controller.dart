@@ -224,10 +224,10 @@ class RenderSliderController extends RenderBox {
     );
 
     /// Drawing the active part of slider or bar from left to thumb position
-    final thumbDx = ((_value - _min) / (_max - _min)) * size.width;
+    final thumbDx = ((_value - _min) / (_max - _min)) * size.width ;
     canvas.drawRRect(
       RRect.fromRectAndCorners(
-        Offset.zero & Size(thumbDx, _sliderDecoration.height),
+        Offset.zero & Size(thumbDx , _sliderDecoration.height),
         topRight: Radius.circular(_sliderDecoration.borderRadius),
         topLeft: Radius.circular(_sliderDecoration.borderRadius),
         bottomRight: Radius.circular(_sliderDecoration.borderRadius),
@@ -239,7 +239,7 @@ class RenderSliderController extends RenderBox {
     if (_sliderDecoration.isThumbVisible) {
       /// Drawing the slider thumb
       final thumbDesiredDx =
-          thumbDx - ((thumbDx == 0.0) ? 0.0 : _thumbLeftPadding);
+          thumbDx - ((thumbDx == 0.0) ? 0 : _thumbLeftPadding *4.2);
       final thumbDesiredDy =
           (size.height / 2.0) - (_sliderDecoration.thumbHeight / 2.0);
       final thumbCenter = Offset(thumbDesiredDx, thumbDesiredDy);
