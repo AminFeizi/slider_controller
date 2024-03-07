@@ -15,6 +15,8 @@ class SliderDecoration {
   /// Defines the thumb color of the slider
   /// Default value [Colors.white]
   final Color thumbColor;
+  /// this is Outer Color
+  final Color outerColor;
 
   /// Indicates the rounded border radius for the slider
   /// Default value 20.0
@@ -44,6 +46,7 @@ class SliderDecoration {
     this.inactiveColor = Colors.blueGrey,
     this.activeColor = Colors.blue,
     this.thumbColor = Colors.white,
+    this.outerColor = Colors.red,
     this.borderRadius = 20.0,
     this.height = 50.0,
     this.isThumbVisible = true,

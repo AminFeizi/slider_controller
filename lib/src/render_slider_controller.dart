@@ -210,6 +210,7 @@ class RenderSliderController extends RenderBox {
 
     /// Painter for the slider thumb
     final thumbPainter = Paint()..color = _sliderDecoration.thumbColor;
+    final thumbPainter2 = Paint()..color = _sliderDecoration.outerColor;
 
     /// Drawing the inactive part of slider
     canvas.drawRRect(
@@ -224,10 +225,10 @@ class RenderSliderController extends RenderBox {
     );
 
     /// Drawing the active part of slider or bar from left to thumb position
-    final thumbDx = ((_value - _min) / (_max - _min)) * size.width ;
+    final thumbDx = ((_value - _min) / (_max - _min)) * size.width;
     canvas.drawRRect(
       RRect.fromRectAndCorners(
-        Offset.zero & Size(thumbDx , _sliderDecoration.height),
+        Offset.zero & Size(thumbDx, _sliderDecoration.height),
         topRight: Radius.circular(_sliderDecoration.borderRadius),
         topLeft: Radius.circular(_sliderDecoration.borderRadius),
         bottomRight: Radius.circular(_sliderDecoration.borderRadius),
@@ -239,10 +240,12 @@ class RenderSliderController extends RenderBox {
     if (_sliderDecoration.isThumbVisible) {
       /// Drawing the slider thumb
       final thumbDesiredDx =
-          thumbDx - ((thumbDx == 0.0) ? 0 : _thumbLeftPadding *4.2);
+          thumbDx - ((thumbDx == 0.0) ? 0 : _thumbLeftPadding * 4.2);
       final thumbDesiredDy =
           (size.height / 2.0) - (_sliderDecoration.thumbHeight / 2.0);
       final thumbCenter = Offset(thumbDesiredDx, thumbDesiredDy);
+      final thumbCenter2 = Offset(
+          thumbDx - ((thumbDx == 0.0) ? -25 : _thumbLeftPadding * 1.7), 25);
 
       canvas.drawRRect(
         RRect.fromRectAndCorners(
@@ -255,6 +258,20 @@ class RenderSliderController extends RenderBox {
         ),
         thumbPainter,
       );
+      canvas.drawCircle(thumbCenter2, 19, thumbPainter2);
+      // canvas.drawDRRect(
+      //   RRect.fromRectAndCorners(
+      //     thumbCenter2 &
+      //     Size(_sliderDecoration.thumbWidth , _sliderDecoration.thumbHeight ),
+      //     topRight: Radius.circular(_sliderDecoration.borderRadius),
+      //     topLeft: Radius.circular(_sliderDecoration.borderRadius),
+      //     bottomRight: Radius.circular(_sliderDecoration.borderRadius),
+      //     bottomLeft: Radius.circular(_sliderDecoration.borderRadius),
+      //   ),
+      //   RRect.zero,
+      //   thumbPainter2,
+      //
+      // );
     }
 
     /// Restoring the saved canvas
