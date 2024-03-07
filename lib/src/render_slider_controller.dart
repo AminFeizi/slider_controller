@@ -256,28 +256,42 @@ class RenderSliderController extends RenderBox {
           bottomRight: Radius.circular(_sliderDecoration.borderRadius),
           bottomLeft: Radius.circular(_sliderDecoration.borderRadius),
         ),
-        thumbPainter,
+        thumbPainter
+        // ..colorFilter =ColorFilter.mode(Colors.red,BlendMode.color)
+        //   ..filterQuality = FilterQuality.none
       );
-      canvas.drawCircle(thumbCenter2, 19, thumbPainter2);
-      // canvas.drawDRRect(
-      //   RRect.fromRectAndCorners(
-      //     thumbCenter2 &
-      //     Size(_sliderDecoration.thumbWidth , _sliderDecoration.thumbHeight ),
-      //     topRight: Radius.circular(_sliderDecoration.borderRadius),
-      //     topLeft: Radius.circular(_sliderDecoration.borderRadius),
-      //     bottomRight: Radius.circular(_sliderDecoration.borderRadius),
-      //     bottomLeft: Radius.circular(_sliderDecoration.borderRadius),
-      //   ),
-      //   RRect.zero,
-      //   thumbPainter2,
-      //
+      // canvas.drawPath(
+      //     Path()
+      //       ..addRRect(
+      //           RRect.fromRectAndCorners(
+      //             thumbCenter &
+      //             Size(_sliderDecoration.thumbWidth, _sliderDecoration.thumbHeight),
+      //             topRight: Radius.circular(_sliderDecoration.borderRadius),
+      //             topLeft: Radius.circular(_sliderDecoration.borderRadius),
+      //             bottomRight: Radius.circular(_sliderDecoration.borderRadius),
+      //             bottomLeft: Radius.circular(_sliderDecoration.borderRadius),
+      //           ))            // ..addOval(
+      //       //     Rect.fromPoints(Offset(15, 15), Offset(size.width, size.height)))
+      //       ..fillType = PathFillType.evenOdd,
+      //     Paint()
+      //       ..color= Colors.red
+      //       ..maskFilter = MaskFilter.blur(BlurStyle.normal, convertRadiusToSigma(3))
       // );
+
+
+      canvas.drawCircle(thumbCenter2, 19, thumbPainter2
+        ..maskFilter= MaskFilter.blur(BlurStyle.inner,3)
+
+      );
+
     }
 
     /// Restoring the saved canvas
     canvas.restore();
   }
-
+  static double convertRadiusToSigma(double radius) {
+    return radius * 0.57735 + 0.5;
+  }
   /// Helped to Use the horizontal drag gesture for the slider
   HorizontalDragGestureRecognizer _drag = HorizontalDragGestureRecognizer();
 
